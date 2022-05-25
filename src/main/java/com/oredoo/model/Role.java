@@ -1,6 +1,8 @@
 package com.oredoo.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -8,6 +10,8 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "sys_role")
 public class Role {
@@ -17,7 +21,6 @@ public class Role {
     @Column(name = "id")
     private int id;
 
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "name", columnDefinition = "varchar(255)")
     @NotBlank(message = "Role's name is required")
     @Pattern(regexp = "^ROLE_")
