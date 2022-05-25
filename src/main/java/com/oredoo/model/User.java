@@ -1,17 +1,22 @@
 package com.oredoo.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "sys_user")
 public class User {
@@ -50,29 +55,21 @@ public class User {
     private String avatar;
 
     @Column(name = "email", columnDefinition = "varchar(255)")
+    @NotBlank(message = "User's email is required")
+    @Pattern(regexp = "^[\\w._%+-]+@[a-zA-Z]+\\.[a-zA-Z]{2,6}$", message = "Invalid email address")
     private String email;
 
-    @NotBlank(message = "User's is_active is required")
     @Column(name = "is_active")
     private boolean isActive;
 
-    @NotBlank(message = "User's is_delete is required")
     @Column(name = "is_delete")
     private boolean isDelete;
 
-    @NotBlank(message = "User's created_date is required")
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
-
-    @PrePersist
-    void preCondition() {
-        this.isActive = false;
-        this.isDelete = false;
-        this.createdDate = LocalDateTime.now();
-    }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
@@ -80,4 +77,17 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @PrePersist
+    void preCondition() {
+        this.isActive = true;
+        this.isDelete = false;
+        this.createdDate = LocalDateTime.now();
+    }
+
+    public User(String username, String email, String password, int type) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.type = type;
+    }
 }
