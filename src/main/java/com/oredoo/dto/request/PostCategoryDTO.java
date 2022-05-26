@@ -1,4 +1,4 @@
-package com.oredoo.Table.DTO;
+package com.oredoo.dto.request;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class PostCategoryDTO {
- private int id;
+ private Integer id;
  private String name;
- private LocalDateTime createDate;
- private LocalDateTime updateDate;
+ private LocalDateTime createdDate;
+ private LocalDateTime updatedDate;
  private boolean isActive;
 }

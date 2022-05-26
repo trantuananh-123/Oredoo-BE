@@ -1,6 +1,6 @@
 package com.oredoo.service;
 
-import com.oredoo.Table.DTO.PostCategoryDTO;
+import com.oredoo.dto.request.PostCategoryDTO;
 import com.oredoo.response.Response;
 
 public interface PostCategoryService {
