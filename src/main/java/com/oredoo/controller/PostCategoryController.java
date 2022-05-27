@@ -35,7 +35,7 @@ public class PostCategoryController {
 	
 	@PostMapping(value="/delete")
 	public Response delete(@RequestBody PostCategoryDTO dto) {
-		return postCategoryService.saveOrUpdate(dto);
+		return postCategoryService.delete(dto);
 	}
 	
 	
