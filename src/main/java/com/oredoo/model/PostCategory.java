@@ -34,7 +34,7 @@ public class PostCategory {
 
 	@Column(name = "updated_date")
 	private LocalDateTime updatedDate;
-	@NotBlank(message = "Role's is_active is required")
+	@NotBlank(message = "Category's is_active is required")
     @Column(name = "is_active")
     private boolean isActive;
 	@PrePersist
