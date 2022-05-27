@@ -29,12 +29,10 @@ public class PostCategory {
 	@NotBlank(message = "Category's name is required")
 	private String name;
 	@Column(name = "created_date")
-	@NotBlank(message = "Role's created_date is required")
 	private LocalDateTime createdDate;
 
 	@Column(name = "updated_date")
 	private LocalDateTime updatedDate;
-	@NotBlank(message = "Category's is_active is required")
     @Column(name = "is_active")
     private boolean isActive;
 	@PrePersist

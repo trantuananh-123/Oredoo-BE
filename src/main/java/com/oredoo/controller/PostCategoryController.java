@@ -1,6 +1,7 @@
 package com.oredoo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,20 +26,23 @@ public class PostCategoryController {
 		return postCategoryService.getAll();
 	}
 	
-	@PostMapping(value="/save")
+	@PutMapping(value="/save")
 	public Response saveOrUpdate(@RequestBody PostCategoryDTO dto) {
 		return postCategoryService.saveOrUpdate(dto);
 	}
-	@PostMapping(value="/get-by-id")
+	@GetMapping(value="/get-by-id")
 	public Response getById(@RequestBody PostCategoryDTO dto) {
 		return postCategoryService.getById(dto);
 	}
 	
-	@PostMapping(value="/delete")
+	@DeleteMapping(value="/delete")
 	public Response delete(@RequestBody PostCategoryDTO dto) {
 		return postCategoryService.delete(dto);
 	}
-	
+	@PostMapping(value="/add")
+	public Response add(@RequestBody PostCategoryDTO dto) {
+		return postCategoryService.add(dto);
+	}
 	
 	
 	

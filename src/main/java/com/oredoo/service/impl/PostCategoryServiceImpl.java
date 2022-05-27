@@ -95,5 +95,23 @@ public class PostCategoryServiceImpl implements PostCategoryService {
             return new Response(HttpStatus.BAD_REQUEST.value(),null , "Exception");
         }
 	}
+
+	@Override
+	public Response add(PostCategoryDTO dto) {
+		LocalDateTime currentTime = LocalDateTime.now();
+		try {
+            if (dto.getId() == null) {
+                dto.setCreatedDate(currentTime);
+            } else {
+                dto.setUpdatedDate(currentTime);
+            }
+            PostCategory postCategory = mapper.map(dto, PostCategory.class);
+            postCategoryRepository.save(postCategory);
+            return new Response(HttpStatus.OK.value(),postCategory , "save successfully");
+        } catch (Exception e) {
+            logger.error(e);
+            return new Response(HttpStatus.NOT_IMPLEMENTED.value(),null , "save failed");
+        }
+	}
 	
 }

@@ -11,4 +11,6 @@ public interface PostCategoryService {
 	    Response getById(PostCategoryDTO dto);
 
 	    Response delete(PostCategoryDTO dto);
+	    
+	    Response add(PostCategoryDTO dto);
 }
