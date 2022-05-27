@@ -25,7 +25,6 @@ public class PostCategory {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Enumerated(value = EnumType.STRING)
 	@Column(name = "name", columnDefinition = "varchar(1000)")
 	@NotBlank(message = "Category's name is required")
 	private String name;
