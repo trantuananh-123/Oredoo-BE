@@ -7,6 +7,7 @@ import com.oredoo.response.Response;
 import com.oredoo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,13 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
+//    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping(value = "/login")
     public Response login(@Valid @RequestBody LoginRequestDTO dto, Errors errors) {
         if (errors.hasErrors()) {
@@ -32,7 +34,7 @@ public class UserController {
         }
     }
 
-    //    @Secured("ROLE_ADMIN")
+//    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping(value = "/sign-up")
     public Response save(@Valid @RequestBody SignUpRequestDTO dto, Errors errors) {
         if (errors.hasErrors()) {
