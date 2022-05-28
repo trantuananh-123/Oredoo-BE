@@ -20,13 +20,13 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-//        @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping(value = "/upload")
     public Response uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         return fileService.saveFile(file);
     }
 
-//    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    //    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {
         Response response = fileService.getFile(id);

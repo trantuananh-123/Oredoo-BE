@@ -1,12 +1,11 @@
 package com.oredoo.controller;
 
-import com.oredoo.dto.request.PostRequestDTO;
+import com.oredoo.dto.request.TagRequestDTO;
 import com.oredoo.model.Error;
 import com.oredoo.response.Response;
-import com.oredoo.service.PostService;
+import com.oredoo.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -17,43 +16,39 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(value = "/api/post")
-public class PostController {
+@RequestMapping(value = "api/tag")
+public class TagController {
 
     @Autowired
-    private PostService postService;
+    private TagService tagService;
 
     @GetMapping(value = "/get-all")
     public Response getAll() {
-        return postService.getAll();
+        return tagService.getAll();
     }
 
-    @GetMapping(value = "/get-by-rate")
-    public Response getTop4ByRate() {
-        return postService.getTop4ByRate();
-    }
-
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @PostMapping(value = "/get-all-by-user-id")
-    public Response getAllByUserId(@Valid @RequestBody PostRequestDTO dto, Errors errors) {
-        if (errors.hasErrors()) {
-            return getErrorResponse(errors);
-        }
-        return postService.getAllByUserId(dto);
-    }
-
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping(value = "/save")
-    public Response saveOrUpdate(@Valid @RequestBody PostRequestDTO dto, Errors errors) {
+    public Response saveOrUpdate(@Valid @RequestBody TagRequestDTO dto, Errors errors) {
         if (errors.hasErrors()) {
             return getErrorResponse(errors);
         }
-        return postService.saveOrUpdate(dto);
+        return tagService.saveOrUpdate(dto);
     }
 
-    @GetMapping(value = "/{id}")
-    public Response getById(@PathVariable("id") Integer id) {
-        return postService.getById(id);
+    @PostMapping(value = "/get-by-id")
+    public Response getById(@Valid @RequestBody TagRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return tagService.getById(dto);
+    }
+
+    @PostMapping(value = "/delete")
+    public Response delete(@Valid @RequestBody TagRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return tagService.delete(dto);
     }
 
     private Response getErrorResponse(Errors errors) {
@@ -65,5 +60,4 @@ public class PostController {
         }
         return new Response(HttpStatus.BAD_REQUEST.value(), list, "Error");
     }
-
 }
