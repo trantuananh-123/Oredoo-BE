@@ -85,6 +85,6 @@ public class UserServiceImpl implements UserService {
         user.setId(UUID.randomUUID().toString());
         user.setRoles(roles);
         userRepository.save(user);
-        return new Response(HttpStatus.OK.value(), user, "User registered successfully");
+        return new Response(HttpStatus.OK.value(), user, "Sign up successfully");
     }
 }

@@ -60,10 +60,10 @@ public class User {
     private String email;
 
     @Column(name = "is_active")
-    private boolean isActive;
+    private Boolean isActive;
 
     @Column(name = "is_delete")
-    private boolean isDelete;
+    private Boolean isDelete;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;

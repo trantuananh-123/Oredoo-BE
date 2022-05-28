@@ -31,11 +31,11 @@ public class Role {
 
     @NotBlank(message = "Role's is_active is required")
     @Column(name = "is_active")
-    private boolean isActive;
+    private Boolean isActive;
 
     @NotBlank(message = "Role's is_delete is required")
     @Column(name = "is_delete")
-    private boolean isDelete;
+    private Boolean isDelete;
 
     @Column(name = "created_date")
     @NotBlank(message = "Role's created_date is required")

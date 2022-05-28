@@ -1,16 +1,15 @@
 package com.oredoo.service;
 
-import com.oredoo.dto.request.PostCategoryDTO;
+import com.oredoo.dto.request.PostCategoryRequestDTO;
 import com.oredoo.response.Response;
 
 public interface PostCategoryService {
-	 	Response getAll();
+    Response getAll();
 
-	    Response saveOrUpdate(PostCategoryDTO dto);
+    Response saveOrUpdate(PostCategoryRequestDTO dto);
 
-	    Response getById(PostCategoryDTO dto);
+    Response getById(PostCategoryRequestDTO dto);
 
-	    Response delete(PostCategoryDTO dto);
-	    
-	    Response add(PostCategoryDTO dto);
+
+    Response delete(PostCategoryRequestDTO dto);
 }

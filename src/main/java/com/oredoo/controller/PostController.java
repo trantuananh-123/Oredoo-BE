@@ -1,10 +1,9 @@
 package com.oredoo.controller;
 
-import com.oredoo.dto.request.LoginRequestDTO;
-import com.oredoo.dto.request.SignUpRequestDTO;
+import com.oredoo.dto.request.PostRequestDTO;
 import com.oredoo.model.Error;
 import com.oredoo.response.Response;
-import com.oredoo.service.UserService;
+import com.oredoo.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -18,30 +17,43 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(value = "/api/user")
-public class UserController {
+@RequestMapping(value = "/api/post")
+public class PostController {
 
     @Autowired
-    private UserService userService;
+    private PostService postService;
 
-//    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @PostMapping(value = "/login")
-    public Response login(@Valid @RequestBody LoginRequestDTO dto, Errors errors) {
-        if (errors.hasErrors()) {
-            return getErrorResponse(errors);
-        } else {
-            return userService.login(dto);
-        }
+    @GetMapping(value = "/get-all")
+    public Response getAll() {
+        return postService.getAll();
     }
 
-//    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @PostMapping(value = "/sign-up")
-    public Response save(@Valid @RequestBody SignUpRequestDTO dto, Errors errors) {
+    @GetMapping(value = "/get-by-rate")
+    public Response getTop4ByRate() {
+        return postService.getTop4ByRate();
+    }
+
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @PostMapping(value = "/get-all-by-user-id")
+    public Response getAllByUserId(@Valid @RequestBody PostRequestDTO dto, Errors errors) {
         if (errors.hasErrors()) {
             return getErrorResponse(errors);
-        } else {
-            return userService.signUp(dto);
         }
+        return postService.getAllByUserId(dto);
+    }
+
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @PostMapping(value = "/save")
+    public Response saveOrUpdate(@Valid @RequestBody PostRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return postService.saveOrUpdate(dto);
+    }
+
+    @GetMapping(value = "/{id}")
+    public Response getById(@PathVariable("id") Integer id) {
+        return postService.getById(id);
     }
 
     private Response getErrorResponse(Errors errors) {
@@ -53,4 +65,5 @@ public class UserController {
         }
         return new Response(HttpStatus.BAD_REQUEST.value(), list, "Error");
     }
+
 }

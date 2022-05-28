@@ -1,13 +1,11 @@
 package com.oredoo.controller;
 
-import com.oredoo.dto.request.LoginRequestDTO;
-import com.oredoo.dto.request.SignUpRequestDTO;
+import com.oredoo.dto.request.TagRequestDTO;
 import com.oredoo.model.Error;
 import com.oredoo.response.Response;
-import com.oredoo.service.UserService;
+import com.oredoo.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -18,30 +16,39 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(value = "/api/user")
-public class UserController {
+@RequestMapping(value = "api/tag")
+public class TagController {
 
     @Autowired
-    private UserService userService;
+    private TagService tagService;
 
-//    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @PostMapping(value = "/login")
-    public Response login(@Valid @RequestBody LoginRequestDTO dto, Errors errors) {
-        if (errors.hasErrors()) {
-            return getErrorResponse(errors);
-        } else {
-            return userService.login(dto);
-        }
+    @GetMapping(value = "/get-all")
+    public Response getAll() {
+        return tagService.getAll();
     }
 
-//    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @PostMapping(value = "/sign-up")
-    public Response save(@Valid @RequestBody SignUpRequestDTO dto, Errors errors) {
+    @PostMapping(value = "/save")
+    public Response saveOrUpdate(@Valid @RequestBody TagRequestDTO dto, Errors errors) {
         if (errors.hasErrors()) {
             return getErrorResponse(errors);
-        } else {
-            return userService.signUp(dto);
         }
+        return tagService.saveOrUpdate(dto);
+    }
+
+    @PostMapping(value = "/get-by-id")
+    public Response getById(@Valid @RequestBody TagRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return tagService.getById(dto);
+    }
+
+    @PostMapping(value = "/delete")
+    public Response delete(@Valid @RequestBody TagRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return tagService.delete(dto);
     }
 
     private Response getErrorResponse(Errors errors) {
