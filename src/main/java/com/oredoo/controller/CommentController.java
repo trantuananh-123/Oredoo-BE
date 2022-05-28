@@ -12,6 +12,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,12 +44,9 @@ public class CommentController {
 	        return commentService.saveOrUpdate(dto);
 	    }
 
-	    @PostMapping(value = "/get-by-id")
-	    public Response getById(@Valid @RequestBody CommentRequestDTO dto, Errors errors) {
-	        if (errors.hasErrors()) {
-	            return getErrorResponse(errors);
-	        }
-	        return commentService.getById(dto);
+	    @GetMapping(value = "/{id}")
+	    public Response getById(@PathVariable("id") Integer id) {
+	        return commentService.getById(id);
 	    }
 
 	    @PostMapping(value = "/delete")

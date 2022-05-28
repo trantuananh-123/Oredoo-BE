@@ -8,7 +8,7 @@ public interface CommentService {
 
     Response saveOrUpdate(CommentRequestDTO dto);
 
-    Response getById(CommentRequestDTO dto);
+    Response getById(Integer id);
 
 
     Response delete(CommentRequestDTO dto);

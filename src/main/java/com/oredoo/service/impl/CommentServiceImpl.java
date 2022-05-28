@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.oredoo.dto.request.CommentRequestDTO;
 import com.oredoo.model.Comment;
+import com.oredoo.model.Post;
 import com.oredoo.repository.CommentRepository;
 import com.oredoo.response.Response;
 import com.oredoo.service.CommentService;
@@ -56,21 +57,13 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public Response getById(CommentRequestDTO dto) {
-		try {
-            if (dto.getId() == null) {
-                return new Response(HttpStatus.NOT_FOUND.value(), null, "save failed");
-            }
-            Optional<Comment> optionalComment = commentRepository.findById(dto.getId());
-            if (optionalComment.isPresent()) {
-                Comment comment = optionalComment.get();
-                return new Response(HttpStatus.OK.value(), comment, "Get successfully");
-            }
-            return new Response(HttpStatus.NOT_FOUND.value(), null, "Not found");
-        } catch (Exception e) {
-            LOGGER.error(e);
-            return new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, "Error");
+	public Response getById(Integer id) {
+		Optional<Comment> optionalComment = commentRepository.findById(id);
+        if (optionalComment.isPresent()) {
+            Comment comment = optionalComment.get();
+            return new Response(HttpStatus.OK.value(), comment, "Post fetched successfully");
         }
+        return new Response(HttpStatus.NOT_FOUND.value(), null, "Not found");
 	}
 
 	@Override
