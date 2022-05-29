@@ -35,7 +35,7 @@ public class User {
     @Min(value = 1)
     @Max(value = 3)
     @Column(name = "type")
-    private int type;
+    private Integer type;
 
     @Column(name = "username", unique = true, columnDefinition = "varchar(255)")
     @NotBlank(message = "User's username is required")

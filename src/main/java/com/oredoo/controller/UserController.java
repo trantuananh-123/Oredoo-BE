@@ -51,6 +51,10 @@ public class UserController {
         return userService.checkAdmin(id);
     }
 
+    @GetMapping(value = "/all-authors")
+    public Response getAllAuthors() {
+        return userService.getAllAuthors();
+    }
     private Response getErrorResponse(Errors errors) {
         List<Error> list = new ArrayList<>();
         List<FieldError> fieldErrorList = errors.getFieldErrors();

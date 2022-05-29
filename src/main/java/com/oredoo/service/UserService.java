@@ -14,4 +14,6 @@ public interface UserService {
 
     Response checkAdmin(String userId);
 
+    Response getAllAuthors();
+
 }

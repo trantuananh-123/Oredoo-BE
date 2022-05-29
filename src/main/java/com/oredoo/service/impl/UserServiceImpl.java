@@ -3,6 +3,7 @@ package com.oredoo.service.impl;
 import com.oredoo.dto.request.LoginRequestDTO;
 import com.oredoo.dto.request.SignUpRequestDTO;
 import com.oredoo.dto.response.LoginResponseDTO;
+import com.oredoo.dto.response.UserPostResponseDTO;
 import com.oredoo.model.Role;
 import com.oredoo.model.User;
 import com.oredoo.model.UserDetail;
@@ -81,6 +82,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setId(UUID.randomUUID().toString());
         user.setRoles(roles);
+        user.setAvatar("../../../assets/img/default_avatar.png");
         userRepository.save(user);
         return new Response(HttpStatus.OK.value(), user, "Sign up successfully");
     }
@@ -107,5 +109,18 @@ public class UserServiceImpl implements UserService {
             }
         }
         return new Response(HttpStatus.OK.value(), false, "User is not admin");
+    }
+
+    @Override
+    public Response getAllAuthors() {
+        List<User> userList = userRepository.findAll();
+        List<UserPostResponseDTO> response = new ArrayList<>();
+        for (User i : userList) {
+            UserPostResponseDTO dto = new UserPostResponseDTO();
+            dto.setUser(i);
+            dto.setTotalPost(userRepository.countUserPost(i.getId()));
+            response.add(dto);
+        }
+        return new Response(HttpStatus.OK.value(), response, "Fetch successfully");
     }
 }

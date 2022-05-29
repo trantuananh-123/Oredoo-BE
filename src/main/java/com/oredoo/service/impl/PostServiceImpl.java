@@ -35,7 +35,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getAll() {
-        List<Post> list = postRepository.findAllByOrderByCreatedDateDesc();
+        List<Post> list = postRepository.findAllByOrderByIdDesc();
         return new Response(HttpStatus.OK.value(), list, "Posts fetched successfully");
     }
 
@@ -47,7 +47,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getAllByUserId(PostRequestDTO dto) {
-        List<Post> list = postRepository.findAllByUserIdOrderByCreatedDateDesc(dto.getUserId());
+        List<Post> list = postRepository.findAllByUserIdOrderByIdDesc(dto.getUserId());
         return new Response(HttpStatus.OK.value(), list, "Posts fetched successfully");
     }
 

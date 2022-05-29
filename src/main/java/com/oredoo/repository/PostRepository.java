@@ -12,11 +12,11 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    List<Post> findAllByUserIdOrderByCreatedDateDesc(String id);
+    List<Post> findAllByUserIdOrderByIdDesc(String id);
 
     List<Post> findTop4ByOrderByRateDesc();
 
-    List<Post> findAllByOrderByCreatedDateDesc();
+    List<Post> findAllByOrderByIdDesc();
 
     @Query("SELECT DISTINCT(p) FROM Post p JOIN p.tags t ON (COALESCE(:tags) IS NULL OR t.id IN (:tags)) WHERE " +
         "(:authorName IS NULL OR p.authorName = :authorName) AND " +
