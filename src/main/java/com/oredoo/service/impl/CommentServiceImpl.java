@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 import com.oredoo.dto.request.CommentRequestDTO;
 import com.oredoo.model.Comment;
 import com.oredoo.model.Post;
+import com.oredoo.model.User;
 import com.oredoo.repository.CommentRepository;
+import com.oredoo.repository.PostRepository;
+import com.oredoo.repository.UserRepository;
 import com.oredoo.response.Response;
 import com.oredoo.service.CommentService;
 
@@ -24,7 +27,10 @@ public class CommentServiceImpl implements CommentService {
 
 	    @Autowired
 	    private CommentRepository commentRepository;
-
+	    @Autowired
+	    private UserRepository userRepository;
+	    @Autowired
+	    private PostRepository postRepository;
 	    @Autowired
 	    private ModelMapper mapper;
 	@Override
@@ -48,8 +54,14 @@ public class CommentServiceImpl implements CommentService {
                 }
             }
             Comment comment = mapper.map(dto, Comment.class);
-            commentRepository.save(comment);
-            return new Response(HttpStatus.OK.value(), comment, "Save category successfully");
+            Optional<User> optionalUser = userRepository.findById(dto.getUserId());
+            Optional<Post> optionalPost = postRepository.findById(dto.getPostId());
+            if (optionalUser.isPresent() && optionalPost.isPresent()) {
+                commentRepository.save(comment);
+                return new Response(HttpStatus.OK.value(), comment, "Save category successfully");
+            }else {
+            	return new Response(HttpStatus.NOT_ACCEPTABLE.value(),null,"User and post is not exist");
+            }
         } catch (Exception e) {
             LOGGER.error(e);
             return new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, "Error");
@@ -61,7 +73,7 @@ public class CommentServiceImpl implements CommentService {
 		Optional<Comment> optionalComment = commentRepository.findById(id);
         if (optionalComment.isPresent()) {
             Comment comment = optionalComment.get();
-            return new Response(HttpStatus.OK.value(), comment, "Post fetched successfully");
+            return new Response(HttpStatus.OK.value(), comment, "Comment fetched successfully");
         }
         return new Response(HttpStatus.NOT_FOUND.value(), null, "Not found");
 	}

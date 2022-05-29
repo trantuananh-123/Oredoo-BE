@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -37,6 +39,13 @@ public class Comment {
 
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
+    @Column(name = "user_id")
+    @NotBlank(message = "Comment's user is required")
+    private String userId;
+    
+    @Column(name = "post_id")
+    @NotNull(message = "Comment's post is required")
+    private Integer postId;
     
     @PrePersist
     void preCondition() {
