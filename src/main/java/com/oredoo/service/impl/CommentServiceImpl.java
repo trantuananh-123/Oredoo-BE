@@ -81,7 +81,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Response delete(CommentRequestDTO dto) {
 		  try {
-	            if (dto.getId() == null) {
+			  if (dto.getId() == null) {
 	                return new Response(HttpStatus.NOT_FOUND.value(), null, "Delete failed");
 	            }
 	            Optional<Comment> optionalComment = commentRepository.findById(dto.getId());
@@ -96,6 +96,13 @@ public class CommentServiceImpl implements CommentService {
 	            return new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, "Error");
 	        }
 
+	}
+	
+	@Override
+	public Response search(CommentRequestDTO dto) {
+		List<Comment> list = 
+				commentRepository.search(dto.getContent(),dto.getUserId(),dto.getStartDate(),dto.getEndDate());
+        return new Response(HttpStatus.OK.value(), list, "Comment fetched successfully");
 	}
 
 }

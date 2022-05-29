@@ -12,4 +12,6 @@ public interface PostCategoryService {
 
 
     Response delete(PostCategoryRequestDTO dto);
+    
+    Response search(PostCategoryRequestDTO dto);
 }

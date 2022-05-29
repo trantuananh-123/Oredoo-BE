@@ -11,6 +11,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +45,7 @@ public class CommentController {
 	        return commentService.saveOrUpdate(dto);
 	    }
 
-	    @GetMapping(value = "/{id}")
+	    @GetMapping(value = "{id}")
 	    public Response getById(@PathVariable("id") Integer id) {
 	        return commentService.getById(id);
 	    }
@@ -56,7 +57,14 @@ public class CommentController {
 	        }
 	        return commentService.delete(dto);
 	    }
-
+	    
+	    @GetMapping(value = "/search")
+	    public Response search(@Valid @RequestBody CommentRequestDTO dto, Errors errors) {
+	    	if (errors.hasErrors()) {
+	            return getErrorResponse(errors);
+	        }
+	        return commentService.search(dto);
+	    }
 	    private Response getErrorResponse(Errors errors) {
 	        List<Error> list = new ArrayList<>();
 	        List<FieldError> fieldErrorList = errors.getFieldErrors();

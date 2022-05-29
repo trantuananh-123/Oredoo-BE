@@ -10,6 +10,7 @@ public interface CommentService {
 
     Response getById(Integer id);
 
-
     Response delete(CommentRequestDTO dto);
+    
+    Response search(CommentRequestDTO dto);
 }
