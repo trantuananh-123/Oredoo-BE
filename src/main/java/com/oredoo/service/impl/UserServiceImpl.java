@@ -22,10 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,5 +83,29 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         userRepository.save(user);
         return new Response(HttpStatus.OK.value(), user, "Sign up successfully");
+    }
+
+    @Override
+    public Response getUser(String userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        return optionalUser.map(user -> new Response(HttpStatus.OK.value(), user, "Get user successfully"))
+            .orElseGet(() -> new Response(HttpStatus.NOT_FOUND.value(), null, "User not found"));
+    }
+
+    @Override
+    public Response checkAdmin(String userId) {
+        Set<Role> roles = new LinkedHashSet<>();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            roles = optionalUser.get().getRoles();
+        } else {
+            return new Response(HttpStatus.NOT_FOUND.value(), null, "User not found");
+        }
+        for (Role i : roles) {
+            if (i.getName().equals("ROLE_ADMIN")) {
+                return new Response(HttpStatus.OK.value(), true, "User is admin");
+            }
+        }
+        return new Response(HttpStatus.OK.value(), false, "User is not admin");
     }
 }

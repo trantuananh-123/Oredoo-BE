@@ -24,5 +24,5 @@ public class SignUpRequestDTO {
 
     @Min(value = 1)
     @Max(value = 3)
-    private int type;
+    private Integer type;
 }

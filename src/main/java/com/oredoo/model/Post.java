@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -56,20 +56,20 @@ public class Post {
 
     @Column(name = "created_date")
     @NotNull(message = "Tag's created date is required")
-    private LocalDateTime createdDate;
+    private Date createdDate;
 
     @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
+    private Date updatedDate;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "post_tag",
         joinColumns = @JoinColumn(name = "post_id"),
         inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private Set<Tag> tags;
+    private List<Tag> tags;
 
     @PrePersist
     void preCondition() {
         this.isActive = true;
-        this.createdDate = LocalDateTime.now();
+        this.createdDate = new Date();
     }
 }

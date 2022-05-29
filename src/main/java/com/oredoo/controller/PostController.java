@@ -51,6 +51,23 @@ public class PostController {
         return postService.saveOrUpdate(dto);
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @PostMapping(value = "/delete")
+    public Response delete(@Valid @RequestBody PostRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return postService.delete(dto);
+    }
+
+    @PostMapping(value = "/search")
+    public Response search(@Valid @RequestBody PostRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return postService.search(dto);
+    }
+
     @GetMapping(value = "/{id}")
     public Response getById(@PathVariable("id") Integer id) {
         return postService.getById(id);

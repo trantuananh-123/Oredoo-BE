@@ -10,4 +10,8 @@ public interface UserService {
 
     Response signUp(SignUpRequestDTO dto);
 
+    Response getUser(String userId);
+
+    Response checkAdmin(String userId);
+
 }
