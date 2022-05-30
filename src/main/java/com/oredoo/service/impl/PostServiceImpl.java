@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -33,7 +35,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getAll() {
-        List<Post> list = postRepository.findAllByOrderByCreatedDateDesc();
+        List<Post> list = postRepository.findAllByOrderByIdDesc();
         return new Response(HttpStatus.OK.value(), list, "Posts fetched successfully");
     }
 
@@ -45,15 +47,15 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Response getAllByUserId(PostRequestDTO dto) {
-        List<Post> list = postRepository.findAllByUserIdOrderByCreatedDateDesc(dto.getUserId());
+        List<Post> list = postRepository.findAllByUserIdOrderByIdDesc(dto.getUserId());
         return new Response(HttpStatus.OK.value(), list, "Posts fetched successfully");
     }
 
     @Override
     public Response saveOrUpdate(PostRequestDTO dto) {
         Post post = mapper.map(dto, Post.class);
-        List<Integer> tagIdList = dto.getTags();
-        Set<Tag> tags = new LinkedHashSet<>();
+        List<Integer> tagIdList = dto.getTags() != null ? dto.getTags() : new ArrayList<>();
+        List<Tag> tags = new ArrayList<>();
         for (Integer tagId : tagIdList) {
             Optional<Tag> optionalTag = tagRepository.findById(tagId);
             optionalTag.ifPresent(tags::add);
@@ -78,10 +80,8 @@ public class PostServiceImpl implements PostService {
             }
             Optional<Post> optionalPost = postRepository.findById(dto.getId());
             if (optionalPost.isPresent()) {
-                Post post = optionalPost.get();
-                post.setIsActive(false);
-                postRepository.save(post);
-                return new Response(HttpStatus.OK.value(), post, "Delete successfully");
+                postRepository.deleteById(dto.getId());
+                return new Response(HttpStatus.OK.value(), null, "Post deleted successfully");
             }
             return new Response(HttpStatus.NOT_FOUND.value(), null, "Not found");
         } catch (Exception e) {
@@ -98,6 +98,12 @@ public class PostServiceImpl implements PostService {
         }
         return new Response(HttpStatus.NOT_FOUND.value(), null, "Not found");
     }
-    
-    
+
+    @Override
+    public Response search(PostRequestDTO dto) {
+        List<Post> list =
+            postRepository.search(dto.getAuthorName(), dto.getCategoryId(), dto.getTags(), dto.getStartDate(),
+                dto.getEndDate());
+        return new Response(HttpStatus.OK.value(), list, "Post fetched successfully");
+    }
 }

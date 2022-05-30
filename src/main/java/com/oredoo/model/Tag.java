@@ -22,14 +22,12 @@ public class Tag {
     private int id;
 
     @Column(name = "name")
-    @NotBlank(message = "Tag's name is required")
     private String name;
 
     @Column(name = "image")
     private String image;
 
     @Column(name = "created_date")
-    @NotNull(message = "Tag's created date is required")
     private LocalDateTime createdDate;
 
     @Column(name = "updated_date")

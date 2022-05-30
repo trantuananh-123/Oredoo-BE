@@ -26,5 +26,6 @@ public class PostCategoryRequestDTO {
     private Date startDate;
     @JsonFormat(timezone = "GMT+07:00")
     private Date endDate;
+    private String image;
 
 }

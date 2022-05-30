@@ -1,6 +1,10 @@
 package com.oredoo.controller;
 
+import com.oredoo.dto.request.PostCategoryRequestDTO;
+import com.oredoo.dto.request.PostRequestDTO;
 import com.oredoo.model.Error;
+import com.oredoo.response.Response;
+import com.oredoo.service.PostCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.oredoo.dto.request.PostCategoryRequestDTO;
 import com.oredoo.response.Response;
 import com.oredoo.service.PostCategoryService;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -37,7 +42,7 @@ public class PostCategoryController {
         return postCategoryService.getAll();
     }
 
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     @PostMapping(value = "/save")
     public Response saveOrUpdate(@Valid @RequestBody PostCategoryRequestDTO dto, Errors errors) {
         if (errors.hasErrors()) {
@@ -54,6 +59,7 @@ public class PostCategoryController {
         return postCategoryService.getById(dto);
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping(value = "/delete")
     public Response delete(@Valid @RequestBody PostCategoryRequestDTO dto, Errors errors) {
         if (errors.hasErrors()) {
@@ -62,6 +68,13 @@ public class PostCategoryController {
         return postCategoryService.delete(dto);
     }
 
+    @PostMapping(value = "/search")
+    public Response search(@Valid @RequestBody PostCategoryRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return postCategoryService.search(dto);
+    }    
     private Response getErrorResponse(Errors errors) {
         List<Error> list = new ArrayList<>();
         List<FieldError> fieldErrorList = errors.getFieldErrors();

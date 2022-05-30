@@ -16,4 +16,6 @@ public interface PostService {
     Response delete(PostRequestDTO dto);
 
     Response getById(Integer id);
+
+    Response search(PostRequestDTO dto);
 }
