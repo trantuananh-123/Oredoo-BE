@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,19 +37,22 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Response saveOrUpdate(TagRequestDTO dto) {
-        LocalDateTime currentTime = LocalDateTime.now();
+        Tag tag = mapper.map(dto, Tag.class);
         try {
             if (dto.getId() == null) {
-                dto.setCreatedDate(currentTime);
+                tag.setCreatedDate(LocalDateTime.ofInstant(dto.getCreatedDate().toInstant(),
+                    ZoneId.systemDefault()));
             } else {
-                Optional<Tag> optionalTag = tagRepository.findById(dto.getId());
-                if (optionalTag.isPresent()) {
-                    dto.setUpdatedDate(currentTime);
+                Optional<Tag> optionalPostCategory = tagRepository.findById(dto.getId());
+                if (optionalPostCategory.isPresent()) {
+                    tag.setCreatedDate(LocalDateTime.ofInstant(dto.getCreatedDate().toInstant(),
+                        ZoneId.systemDefault()));
+                    tag.setUpdatedDate(LocalDateTime.ofInstant(dto.getUpdatedDate().toInstant(),
+                        ZoneId.systemDefault()));
                 } else {
                     return new Response(HttpStatus.NOT_FOUND.value(), null, "Not found");
                 }
             }
-            Tag tag = mapper.map(dto, Tag.class);
             tagRepository.save(tag);
             return new Response(HttpStatus.OK.value(), tag, "Save tag successfully");
         } catch (Exception e) {
@@ -83,10 +87,8 @@ public class TagServiceImpl implements TagService {
             }
             Optional<Tag> optionalTag = tagRepository.findById(dto.getId());
             if (optionalTag.isPresent()) {
-                Tag tag = optionalTag.get();
-                tag.setIsActive(false);
-                tagRepository.save(tag);
-                return new Response(HttpStatus.OK.value(), tag, "Delete successfully");
+                tagRepository.deleteById(dto.getId());
+                return new Response(HttpStatus.OK.value(), null, "Delete successfully");
             }
             return new Response(HttpStatus.NOT_FOUND.value(), null, "Not found");
         } catch (Exception e) {

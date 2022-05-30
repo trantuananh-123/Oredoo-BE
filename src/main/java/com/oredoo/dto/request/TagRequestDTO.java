@@ -1,20 +1,19 @@
 package com.oredoo.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class TagRequestDTO {
     private Integer id;
-
     private String name;
-
-    private String image;
-
-    private LocalDateTime createdDate;
-
-    private LocalDateTime updatedDate;
-
+    @JsonFormat(timezone = "GMT+07:00")
+    private Date createdDate;
+    @JsonFormat(timezone = "GMT+07:00")
+    private Date updatedDate;
     private Boolean isActive;
+    private String image;
 }

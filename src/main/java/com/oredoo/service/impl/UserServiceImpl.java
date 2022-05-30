@@ -182,7 +182,7 @@ public class UserServiceImpl implements UserService {
             ZoneId.systemDefault()) : null;
         List<User> userList =
             userRepository.search(dto.getUsername(), dto.getEmail(), dto.getPhone(), dto.getIsActive(),
-                startDate, endDate, dto.getRoles());
+                startDate, endDate, dto.getRoleId());
         return new Response(HttpStatus.OK.value(), userList, "Search user successfully");
     }
 }

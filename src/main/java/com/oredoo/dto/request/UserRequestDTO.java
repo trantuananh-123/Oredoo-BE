@@ -28,6 +28,7 @@ public class UserRequestDTO {
     private Date startDate;
     @JsonFormat(timezone = "GMT+07:00")
     private Date endDate;
-    private Integer roles;
+    private Integer roleId;
+    private Set<Role> roles;
 
 }

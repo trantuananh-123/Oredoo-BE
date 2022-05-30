@@ -1,6 +1,7 @@
 package com.oredoo.service.impl;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,19 +38,22 @@ public class PostCategoryServiceImpl implements PostCategoryService {
 
     @Override
     public Response saveOrUpdate(PostCategoryRequestDTO dto) {
-        LocalDateTime currentTime = LocalDateTime.now();
+        PostCategory postCategory = mapper.map(dto, PostCategory.class);
         try {
             if (dto.getId() == null) {
-                dto.setCreatedDate(currentTime);
+                postCategory.setCreatedDate(LocalDateTime.ofInstant(dto.getCreatedDate().toInstant(),
+                    ZoneId.systemDefault()));
             } else {
                 Optional<PostCategory> optionalPostCategory = postCategoryRepository.findById(dto.getId());
                 if (optionalPostCategory.isPresent()) {
-                    dto.setUpdatedDate(currentTime);
+                    postCategory.setCreatedDate(LocalDateTime.ofInstant(dto.getCreatedDate().toInstant(),
+                        ZoneId.systemDefault()));
+                    postCategory.setUpdatedDate(LocalDateTime.ofInstant(dto.getUpdatedDate().toInstant(),
+                        ZoneId.systemDefault()));
                 } else {
                     return new Response(HttpStatus.NOT_FOUND.value(), null, "Not found");
                 }
             }
-            PostCategory postCategory = mapper.map(dto, PostCategory.class);
             postCategoryRepository.save(postCategory);
             return new Response(HttpStatus.OK.value(), postCategory, "Save category successfully");
         } catch (Exception e) {

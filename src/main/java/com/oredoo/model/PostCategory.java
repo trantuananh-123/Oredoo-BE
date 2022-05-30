@@ -50,10 +50,4 @@ public class PostCategory {
     @NotNull(message = "Is active is required")
     private Boolean isActive;
 
-    @PrePersist
-    void preCondition() {
-        this.isActive = true;
-        this.createdDate = LocalDateTime.now();
-    }
-
 }

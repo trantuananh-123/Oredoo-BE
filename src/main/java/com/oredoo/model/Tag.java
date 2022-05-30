@@ -36,9 +36,4 @@ public class Tag {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @PrePersist
-    void preCondition() {
-        this.isActive = true;
-        this.createdDate = LocalDateTime.now();
-    }
 }
