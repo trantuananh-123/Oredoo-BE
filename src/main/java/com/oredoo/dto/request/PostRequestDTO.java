@@ -22,7 +22,6 @@ public class PostRequestDTO {
     private Date createdDate;
     private Date updatedDate;
     private List<Integer> tags;
-    private Integer tagId;
     @JsonFormat(timezone = "GMT+07:00")
     private Date startDate;
     @JsonFormat(timezone = "GMT+07:00")

@@ -1,5 +1,6 @@
 package com.oredoo.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.oredoo.model.Role;
 import lombok.Data;
 
@@ -23,5 +24,10 @@ public class UserRequestDTO {
     private Boolean isActive;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
-    private Set<Role> roles;
+    @JsonFormat(timezone = "GMT+07:00")
+    private Date startDate;
+    @JsonFormat(timezone = "GMT+07:00")
+    private Date endDate;
+    private Integer roles;
+
 }

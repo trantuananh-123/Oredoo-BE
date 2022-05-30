@@ -27,4 +27,6 @@ public interface UserService {
 
     Response update(UserRequestDTO dto);
 
+    Response search(UserRequestDTO dto);
+
 }

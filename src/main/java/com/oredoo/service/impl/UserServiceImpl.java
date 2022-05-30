@@ -26,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -167,18 +168,21 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findById(dto.getId());
         if (optionalUser.isPresent()) {
             User user = mapper.map(dto, User.class);
-//            user.setFirstName(dto.getFirstName() != null ? dto.getFirstName() : user.getFirstName());
-//            user.setMiddleName(dto.getMiddleName() != null ? dto.getMiddleName() : user.getMiddleName());
-//            user.setLastName(dto.getLastName() != null ? dto.getLastName() : user.getLastName());
-//            user.setEmail(dto.getEmail() != null ? dto.getEmail() : user.getEmail());
-//            user.setUsername(dto.getUsername() != null ? dto.getUsername() : user.getUsername());
-//            user.setBirthday(dto.getBirthday() != null ? dto.getBirthday() : user.getBirthday());
-//            user.setPhone(dto.getPhone() != null ? dto.getPhone() : user.getPhone());
-//            user.setAvatar(dto.getAvatar() != null ? dto.getAvatar() : user.getAvatar());
-//            user.setIsActive(dto.getIsActive() != null ? dto.getIsActive() : user.getIsActive());
             userRepository.save(user);
             return new Response(HttpStatus.OK.value(), user, "Update user successfully");
         }
         return new Response(HttpStatus.NOT_FOUND.value(), null, "User not found");
+    }
+
+    @Override
+    public Response search(UserRequestDTO dto) {
+        LocalDateTime startDate = dto.getStartDate() != null ? LocalDateTime.ofInstant(dto.getStartDate().toInstant(),
+            ZoneId.systemDefault()) : null;
+        LocalDateTime endDate = dto.getEndDate() != null ? LocalDateTime.ofInstant(dto.getEndDate().toInstant(),
+            ZoneId.systemDefault()) : null;
+        List<User> userList =
+            userRepository.search(dto.getUsername(), dto.getEmail(), dto.getPhone(), dto.getIsActive(),
+                startDate, endDate, dto.getRoles());
+        return new Response(HttpStatus.OK.value(), userList, "Search user successfully");
     }
 }

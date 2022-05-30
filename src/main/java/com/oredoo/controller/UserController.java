@@ -82,6 +82,11 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
+    @PostMapping(value = "/search")
+    public Response search(@RequestBody UserRequestDTO dto) {
+        return userService.search(dto);
+    }
+
     private Response getErrorResponse(Errors errors) {
         List<Error> list = new ArrayList<>();
         List<FieldError> fieldErrorList = errors.getFieldErrors();
