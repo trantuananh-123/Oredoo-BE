@@ -1,6 +1,7 @@
 package com.oredoo.controller;
 
 import com.oredoo.dto.request.PostCategoryRequestDTO;
+import com.oredoo.dto.request.PostRequestDTO;
 import com.oredoo.model.Error;
 import com.oredoo.response.Response;
 import com.oredoo.service.PostCategoryService;
@@ -9,6 +10,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.oredoo.dto.request.PostCategoryRequestDTO;
+import com.oredoo.response.Response;
+import com.oredoo.service.PostCategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +32,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping(value = "api/post_category")
 public class PostCategoryController {
+
 
     @Autowired
     private PostCategoryService postCategoryService;
@@ -54,6 +68,13 @@ public class PostCategoryController {
         return postCategoryService.delete(dto);
     }
 
+    @PostMapping(value = "/search")
+    public Response search(@Valid @RequestBody PostCategoryRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return postCategoryService.search(dto);
+    }    
     private Response getErrorResponse(Errors errors) {
         List<Error> list = new ArrayList<>();
         List<FieldError> fieldErrorList = errors.getFieldErrors();

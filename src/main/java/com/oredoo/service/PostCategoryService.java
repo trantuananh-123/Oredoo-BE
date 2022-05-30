@@ -10,5 +10,8 @@ public interface PostCategoryService {
 
     Response getById(PostCategoryRequestDTO dto);
 
+
     Response delete(PostCategoryRequestDTO dto);
+    
+    Response search(PostCategoryRequestDTO dto);
 }

@@ -96,6 +96,14 @@ public class PostCategoryServiceImpl implements PostCategoryService {
             LOGGER.error(e);
             return new Response(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, "Error");
         }
+
     }
+
+	@Override
+	public Response search(PostCategoryRequestDTO dto) {
+		        List<PostCategory> list =
+		            postCategoryRepository.search(dto.getName(),dto.getIsActive(),dto.getStartDate(),dto.getEndDate());
+		        return new Response(HttpStatus.OK.value(), list, "Post category fetched successfully");
+	}
 
 }
