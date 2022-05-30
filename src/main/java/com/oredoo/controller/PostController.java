@@ -53,7 +53,7 @@ public class PostController {
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping(value = "/delete")
-    public Response delete(@Valid @RequestBody PostRequestDTO dto, Errors errors) {
+    public Response delete(@RequestBody PostRequestDTO dto, Errors errors) {
         if (errors.hasErrors()) {
             return getErrorResponse(errors);
         }

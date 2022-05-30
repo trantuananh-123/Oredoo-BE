@@ -2,6 +2,7 @@ package com.oredoo.controller;
 
 import com.oredoo.dto.request.LoginRequestDTO;
 import com.oredoo.dto.request.SignUpRequestDTO;
+import com.oredoo.dto.request.UserRequestDTO;
 import com.oredoo.model.Error;
 import com.oredoo.response.Response;
 import com.oredoo.service.UserService;
@@ -41,9 +42,24 @@ public class UserController {
         }
     }
 
+    @GetMapping(value = "/get-all")
+    public Response getById() {
+        return userService.getAll();
+    }
+
     @GetMapping(value = "/{id}")
     public Response getById(@PathVariable("id") String id) {
         return userService.getUser(id);
+    }
+
+    @PostMapping(value = "/update")
+    public Response update(@RequestBody UserRequestDTO dto) {
+        return userService.update(dto);
+    }
+
+    @PostMapping(value = "/delete")
+    public Response delete(@RequestBody UserRequestDTO dto) {
+        return userService.delete(dto);
     }
 
     @GetMapping(value = "/check-admin/{id}")
@@ -55,6 +71,17 @@ public class UserController {
     public Response getAllAuthors() {
         return userService.getAllAuthors();
     }
+
+    @GetMapping("/unique-name/{username}")
+    public Response getUserByUsername(@PathVariable("username") String username) {
+        return userService.getUserByUsername(username);
+    }
+
+    @GetMapping("/unique-email/{email}")
+    public Response getUserByEmail(@PathVariable("email") String email) {
+        return userService.getUserByEmail(email);
+    }
+
     private Response getErrorResponse(Errors errors) {
         List<Error> list = new ArrayList<>();
         List<FieldError> fieldErrorList = errors.getFieldErrors();

@@ -43,6 +43,9 @@ public class PostCategory {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "is_active")
     @NotNull(message = "Is active is required")
     private Boolean isActive;

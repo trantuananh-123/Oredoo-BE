@@ -6,24 +6,23 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Data
 public class PostRequestDTO {
     private Integer id;
-    private String description;
     private String title;
+    private String description;
     private String content;
     private String userId;
     private String authorName;
     private Integer categoryId;
-    private List<Integer> tags;
-    private Integer tagId;
     private String image;
     private Float rate;
     private Boolean isActive;
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    private Date createdDate;
+    private Date updatedDate;
+    private List<Integer> tags;
+    private Integer tagId;
     @JsonFormat(timezone = "GMT+07:00")
     private Date startDate;
     @JsonFormat(timezone = "GMT+07:00")

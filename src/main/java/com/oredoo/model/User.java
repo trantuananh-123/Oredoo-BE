@@ -29,6 +29,9 @@ public class User {
     @Column(name = "first_name", columnDefinition = "varchar(255)")
     private String firstName;
 
+    @Column(name = "middle_name", columnDefinition = "varchar(255)")
+    private String middleName;
+
     @Column(name = "last_name", columnDefinition = "varchar(255)")
     private String lastName;
 
@@ -38,11 +41,9 @@ public class User {
     private Integer type;
 
     @Column(name = "username", unique = true, columnDefinition = "varchar(255)")
-    @NotBlank(message = "User's username is required")
     private String username;
 
     @Column(name = "password", columnDefinition = "varchar(255)")
-    @NotBlank(message = "User's password is required")
     private String password;
 
     @Column(name = "birthday")
@@ -55,15 +56,11 @@ public class User {
     private String avatar;
 
     @Column(name = "email", columnDefinition = "varchar(255)")
-    @NotBlank(message = "User's email is required")
     @Pattern(regexp = "^[\\w._%+-]+@[a-zA-Z]+\\.[a-zA-Z]{2,6}$", message = "Invalid email address")
     private String email;
 
     @Column(name = "is_active")
     private Boolean isActive;
-
-    @Column(name = "is_delete")
-    private Boolean isDelete;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
@@ -80,7 +77,6 @@ public class User {
     @PrePersist
     void preCondition() {
         this.isActive = true;
-        this.isDelete = false;
         this.createdDate = LocalDateTime.now();
     }
 

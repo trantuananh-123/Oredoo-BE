@@ -19,5 +19,6 @@ public class PostCategoryRequestDTO {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private Boolean isActive;
+    private String image;
 
 }

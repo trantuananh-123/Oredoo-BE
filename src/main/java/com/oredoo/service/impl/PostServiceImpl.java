@@ -54,7 +54,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Response saveOrUpdate(PostRequestDTO dto) {
         Post post = mapper.map(dto, Post.class);
-        List<Integer> tagIdList = dto.getTags();
+        List<Integer> tagIdList = dto.getTags() != null ? dto.getTags() : new ArrayList<>();
         List<Tag> tags = new ArrayList<>();
         for (Integer tagId : tagIdList) {
             Optional<Tag> optionalTag = tagRepository.findById(tagId);
@@ -80,10 +80,8 @@ public class PostServiceImpl implements PostService {
             }
             Optional<Post> optionalPost = postRepository.findById(dto.getId());
             if (optionalPost.isPresent()) {
-                Post post = optionalPost.get();
-                post.setIsActive(false);
-                postRepository.save(post);
-                return new Response(HttpStatus.OK.value(), post, "Delete successfully");
+                postRepository.deleteById(dto.getId());
+                return new Response(HttpStatus.OK.value(), null, "Post deleted successfully");
             }
             return new Response(HttpStatus.NOT_FOUND.value(), null, "Not found");
         } catch (Exception e) {

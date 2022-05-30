@@ -84,10 +84,8 @@ public class PostCategoryServiceImpl implements PostCategoryService {
             }
             Optional<PostCategory> optionalPostCategory = postCategoryRepository.findById(dto.getId());
             if (optionalPostCategory.isPresent()) {
-                PostCategory postCategory = optionalPostCategory.get();
-                postCategory.setIsActive(false);
-                postCategoryRepository.save(postCategory);
-                return new Response(HttpStatus.OK.value(), postCategory, "Delete successfully");
+                postCategoryRepository.deleteById(dto.getId());
+                return new Response(HttpStatus.OK.value(), null, "Delete successfully");
             }
             return new Response(HttpStatus.NOT_FOUND.value(), null, "Not found");
         } catch (Exception e) {

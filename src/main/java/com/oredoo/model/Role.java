@@ -22,23 +22,19 @@ public class Role {
     private int id;
 
     @Column(name = "name", columnDefinition = "varchar(255)")
-    @NotBlank(message = "Role's name is required")
     @Pattern(regexp = "^ROLE_")
     private String name;
 
     @Column(name = "description", columnDefinition = "varchar(255)")
     private String description;
 
-    @NotBlank(message = "Role's is_active is required")
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @NotBlank(message = "Role's is_delete is required")
     @Column(name = "is_delete")
     private Boolean isDelete;
 
     @Column(name = "created_date")
-    @NotBlank(message = "Role's created_date is required")
     private LocalDateTime createdDate;
 
     @Column(name = "updated_date")

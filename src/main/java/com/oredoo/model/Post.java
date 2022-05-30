@@ -20,7 +20,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "title")
     @NotBlank(message = "Post's title is required")
@@ -37,7 +37,6 @@ public class Post {
     @NotBlank(message = "Post's user is required")
     private String userId;
 
-
     @Column(name = "author_name")
     @NotBlank(message = "Post's author is required")
     private String authorName;
@@ -46,6 +45,7 @@ public class Post {
     private int categoryId;
 
     @Column(name = "image")
+    @NotBlank(message = "Post's cover image is required")
     private String image;
 
     @Column(name = "rate")
