@@ -28,50 +28,52 @@ import com.oredoo.service.CommentService;
 @CrossOrigin(origins = "*")
 @RequestMapping(value = "api/comment")
 public class CommentController {
-	 @Autowired
-	    private CommentService commentService;
+    @Autowired
+    private CommentService commentService;
 
-	    @GetMapping(value = "/get-all")
-	    public Response getAll() {
-	        return commentService.getAll();
-	    }
+    @GetMapping(value = "/get-all/{postId}")
+    public Response getAllByPostId(@PathVariable("postId") Integer postId) {
+        return commentService.getAllByPostId(postId);
+    }
 
-	  //  @Secured({"ROLE_USER", "ROLE_ADMIN"})
-	    @PostMapping(value = "/save")
-	    public Response saveOrUpdate(@Valid @RequestBody CommentRequestDTO dto, Errors errors) {
-	        if (errors.hasErrors()) {
-	            return getErrorResponse(errors);
-	        }
-	        return commentService.saveOrUpdate(dto);
-	    }
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @PostMapping(value = "/save")
+    public Response saveOrUpdate(@Valid @RequestBody CommentRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return commentService.saveOrUpdate(dto);
+    }
 
-	    @GetMapping(value = "{id}")
-	    public Response getById(@PathVariable("id") Integer id) {
-	        return commentService.getById(id);
-	    }
+    @GetMapping(value = "{id}")
+    public Response getById(@PathVariable("id") Integer id) {
+        return commentService.getById(id);
+    }
 
-	    @PostMapping(value = "/delete")
-	    public Response delete(@Valid @RequestBody CommentRequestDTO dto, Errors errors) {
-	        if (errors.hasErrors()) {
-	            return getErrorResponse(errors);
-	        }
-	        return commentService.delete(dto);
-	    }
-	    
-	    @GetMapping(value = "/search")
-	    public Response search(@Valid @RequestBody CommentRequestDTO dto, Errors errors) {
-	    	if (errors.hasErrors()) {
-	            return getErrorResponse(errors);
-	        }
-	        return commentService.search(dto);
-	    }
-	    private Response getErrorResponse(Errors errors) {
-	        List<Error> list = new ArrayList<>();
-	        List<FieldError> fieldErrorList = errors.getFieldErrors();
-	        for (FieldError fieldError : fieldErrorList) {
-	            Error error = new Error(fieldError.getField(), fieldError.getDefaultMessage());
-	            list.add(error);
-	        }
-	        return new Response(HttpStatus.BAD_REQUEST.value(), list, "Error");
-	    }
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @PostMapping(value = "/delete")
+    public Response delete(@Valid @RequestBody CommentRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return commentService.delete(dto);
+    }
+
+    @GetMapping(value = "/search")
+    public Response search(@Valid @RequestBody CommentRequestDTO dto, Errors errors) {
+        if (errors.hasErrors()) {
+            return getErrorResponse(errors);
+        }
+        return commentService.search(dto);
+    }
+
+    private Response getErrorResponse(Errors errors) {
+        List<Error> list = new ArrayList<>();
+        List<FieldError> fieldErrorList = errors.getFieldErrors();
+        for (FieldError fieldError : fieldErrorList) {
+            Error error = new Error(fieldError.getField(), fieldError.getDefaultMessage());
+            list.add(error);
+        }
+        return new Response(HttpStatus.BAD_REQUEST.value(), list, "Error");
+    }
 }

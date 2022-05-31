@@ -27,7 +27,7 @@ public class Comment {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@Column(name = "content")
 	@NotBlank(message = "Content's name is required")
@@ -39,6 +39,7 @@ public class Comment {
 
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
+
     @Column(name = "user_id")
     @NotBlank(message = "Comment's user is required")
     private String userId;
@@ -46,9 +47,4 @@ public class Comment {
     @Column(name = "post_id")
     @NotNull(message = "Comment's post is required")
     private Integer postId;
-    
-    @PrePersist
-    void preCondition() {
-        this.createdDate = LocalDateTime.now();
-    }
 }

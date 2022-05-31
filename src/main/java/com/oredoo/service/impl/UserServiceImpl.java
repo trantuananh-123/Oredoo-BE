@@ -167,6 +167,7 @@ public class UserServiceImpl implements UserService {
     public Response update(UserRequestDTO dto) {
         Optional<User> optionalUser = userRepository.findById(dto.getId());
         if (optionalUser.isPresent()) {
+            dto.setPassword(optionalUser.get().getPassword());
             User user = mapper.map(dto, User.class);
             userRepository.save(user);
             return new Response(HttpStatus.OK.value(), user, "Update user successfully");

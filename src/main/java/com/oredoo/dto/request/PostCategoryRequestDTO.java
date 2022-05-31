@@ -1,19 +1,9 @@
 package com.oredoo.dto.request;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 
 
 @Data

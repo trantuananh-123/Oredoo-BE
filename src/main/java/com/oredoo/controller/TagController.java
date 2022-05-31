@@ -6,6 +6,7 @@ import com.oredoo.response.Response;
 import com.oredoo.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class TagController {
         return tagService.getAll();
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping(value = "/save")
     public Response saveOrUpdate(@Valid @RequestBody TagRequestDTO dto, Errors errors) {
         if (errors.hasErrors()) {
@@ -43,6 +45,7 @@ public class TagController {
         return tagService.getById(dto);
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping(value = "/delete")
     public Response delete(@Valid @RequestBody TagRequestDTO dto, Errors errors) {
         if (errors.hasErrors()) {

@@ -4,7 +4,7 @@ import com.oredoo.dto.request.CommentRequestDTO;
 import com.oredoo.response.Response;
 
 public interface CommentService {
-	Response getAll();
+	Response getAllByPostId(Integer postId);
 
     Response saveOrUpdate(CommentRequestDTO dto);
 

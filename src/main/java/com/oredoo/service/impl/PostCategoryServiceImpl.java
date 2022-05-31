@@ -99,11 +99,11 @@ public class PostCategoryServiceImpl implements PostCategoryService {
 
     }
 
-	@Override
-	public Response search(PostCategoryRequestDTO dto) {
-		        List<PostCategory> list =
-		            postCategoryRepository.search(dto.getName(),dto.getIsActive(),dto.getStartDate(),dto.getEndDate());
-		        return new Response(HttpStatus.OK.value(), list, "Post category fetched successfully");
-	}
+    @Override
+    public Response search(PostCategoryRequestDTO dto) {
+        List<PostCategory> list =
+            postCategoryRepository.search(dto.getName(), dto.getIsActive(), dto.getStartDate(), dto.getEndDate());
+        return new Response(HttpStatus.OK.value(), list, "Post category fetched successfully");
+    }
 
 }
