@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
@@ -44,6 +41,7 @@ public class User {
     private String username;
 
     @Column(name = "password", columnDefinition = "varchar(255)")
+    @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
 
     @Column(name = "birthday")
@@ -56,7 +54,6 @@ public class User {
     private String avatar;
 
     @Column(name = "email", columnDefinition = "varchar(255)")
-    @Pattern(regexp = "^[\\w._%+-]+@[a-zA-Z]+\\.[a-zA-Z]{2,6}$", message = "Invalid email address")
     private String email;
 
     @Column(name = "is_active")

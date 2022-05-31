@@ -43,6 +43,9 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
 
     @Autowired
+    private MailServiceImpl mailService;
+
+    @Autowired
     private PasswordEncoder encoder;
 
     @Autowired
@@ -189,5 +192,20 @@ public class UserServiceImpl implements UserService {
             userRepository.search(dto.getUsername(), dto.getEmail(), dto.getPhone(), dto.getIsActive(),
                 startDate, endDate, dto.getRoleId());
         return new Response(HttpStatus.OK.value(), userList, "Search user successfully");
+    }
+
+    @Override
+    public Response forgotPassword(UserRequestDTO dto) {
+        Random random = new Random();
+        String password = String.valueOf(10000000 + random.nextInt(90000000));
+        mailService.sendMail(dto.getUsername(), dto.getEmail(), password);
+        Optional<User> optionalUser = userRepository.findByUsername(dto.getUsername());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setPassword(encoder.encode(password));
+            userRepository.save(user);
+            return new Response(HttpStatus.OK.value(), null, "Reset password successfully");
+        }
+        return new Response(HttpStatus.NOT_FOUND.value(), null, "User not found");
     }
 }

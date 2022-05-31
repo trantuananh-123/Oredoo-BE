@@ -29,4 +29,6 @@ public interface UserService {
 
     Response search(UserRequestDTO dto);
 
+    Response forgotPassword(UserRequestDTO dto);
+
 }

@@ -87,6 +87,11 @@ public class UserController {
         return userService.search(dto);
     }
 
+    @PostMapping(value = "/forgot-password")
+    public Response forgotPassword(@RequestBody UserRequestDTO dto) {
+        return userService.forgotPassword(dto);
+    }
+
     private Response getErrorResponse(Errors errors) {
         List<Error> list = new ArrayList<>();
         List<FieldError> fieldErrorList = errors.getFieldErrors();
