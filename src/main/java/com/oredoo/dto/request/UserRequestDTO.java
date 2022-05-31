@@ -30,5 +30,6 @@ public class UserRequestDTO {
     private Date endDate;
     private Integer roleId;
     private Set<Role> roles;
+    private Integer sendingType;
 
 }

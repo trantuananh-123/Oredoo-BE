@@ -46,6 +46,9 @@ public class UserServiceImpl implements UserService {
     private MailServiceImpl mailService;
 
     @Autowired
+    private SmsServiceImpl smsService;
+
+    @Autowired
     private PasswordEncoder encoder;
 
     @Autowired
@@ -198,7 +201,11 @@ public class UserServiceImpl implements UserService {
     public Response forgotPassword(UserRequestDTO dto) {
         Random random = new Random();
         String password = String.valueOf(10000000 + random.nextInt(90000000));
-        mailService.sendMail(dto.getUsername(), dto.getEmail(), password);
+        if (dto.getSendingType() == 1) {
+            mailService.sendMail(dto.getUsername(), dto.getEmail(), password);
+        } else if (dto.getSendingType() == 2) {
+            smsService.sendMessage(dto.getPhone(), dto.getPhone(), password);
+        }
         Optional<User> optionalUser = userRepository.findByUsername(dto.getUsername());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
