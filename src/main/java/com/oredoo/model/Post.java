@@ -29,7 +29,7 @@ public class Post {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "text")
     @NotBlank(message = "Post's content is required")
     private String content;
 
